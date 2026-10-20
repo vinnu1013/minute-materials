@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minute Materials - Pure HTML/CSS WhatsApp Store</title>
+    <!-- Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF6B00',
+                            navy: '#002C6C',
+                            darkNavy: '#071838',
+                            lightBg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Pure CSS Category Filter Logic using Radio Inputs */
+        #cat-all:checked ~ #catalog .prod-card { display: flex !important; }
+        #cat-masonry:checked ~ #catalog .prod-card { display: none; }
+        #cat-masonry:checked ~ #catalog .prod-masonry { display: flex !important; }
+        
+        #cat-steel:checked ~ #catalog .prod-card { display: none; }
+        #cat-steel:checked ~ #catalog .prod-steel { display: flex !important; }
+        
+        #cat-plumbing:checked ~ #catalog .prod-card { display: none; }
+        #cat-plumbing:checked ~ #catalog .prod-plumbing { display: flex !important; }
+        
+        #cat-electrical:checked ~ #catalog .prod-card { display: none; }
+        #cat-electrical:checked ~ #catalog .prod-electrical { display: flex !important; }
+        
+        #cat-safety:checked ~ #catalog .prod-card { display: none; }
+        #cat-safety:checked ~ #catalog .prod-safety { display: flex !important; }
+
+        /* Pure CSS Active Tab Button Highlight */
+        #cat-all:checked ~ #cat-bar label[for="cat-all"],
+        #cat-masonry:checked ~ #cat-bar label[for="cat-masonry"],
+        #cat-steel:checked ~ #cat-bar label[for="cat-steel"],
+        #cat-plumbing:checked ~ #cat-bar label[for="cat-plumbing"],
+        #cat-electrical:checked ~ #cat-bar label[for="cat-electrical"],
+        #cat-safety:checked ~ #cat-bar label[for="cat-safety"] {
+            background-color: #FF6B00;
+            color: #ffffff;
+            border-color: #FF6B00;
+            box-shadow: 0 4px 6px -1px rgba(255, 107, 0, 0.3);
+        }
+
+        /* Pure CSS Modal Drawer using :target */
+        #cart-modal:target,
+        #quote-modal:target {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Category Filter Hidden Radio Controllers (Pure CSS State) -->
+    <input type="radio" name="category" id="cat-all" class="hidden" checked>
+    <input type="radio" name="category" id="cat-masonry" class="hidden">
+    <input type="radio" name="category" id="cat-steel" class="hidden">
+    <input type="radio" name="category" id="cat-plumbing" class="hidden">
+    <input type="radio" name="category" id="cat-electrical" class="hidden">
+    <input type="radio" name="category" id="cat-safety" class="hidden">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white shadow-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo (Pure SVG) -->
+                <a href="#" class="flex items-center gap-2">
+                    <div class="h-12 flex items-center bg-white py-1 px-1 rounded-xl">
+                        <svg class="h-10 w-auto" viewBox="0 0 450 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Speed lines -->
+                            <path d="M15 110 L120 110 L105 120 L0 120 Z" fill="#002C6C"/>
+                            <path d="M25 85 L130 85 L115 95 L10 95 Z" fill="#002C6C"/>
+                            <path d="M40 60 L140 60 L125 70 L20 70 Z" fill="#002C6C"/>
+                            <path d="M75 30 L160 30 L145 40 L50 40 Z" fill="#002C6C"/>
+                            <!-- First M (Blue) -->
+                            <path d="M120 125 L160 30 L205 30 L235 85 L270 30 L310 30 L260 125 L220 125 L190 70 L160 125 Z" fill="#002C6C"/>
+                            <!-- Second M (Orange) -->
+                            <path d="M280 30 L320 30 L355 85 L390 30 L430 30 L390 125 L350 125 L320 70 L290 125 H255 Z" fill="#FF6B00"/>
+                            <!-- Minute Text -->
+                            <text x="110" y="152" fill="#002C6C" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="28" letter-spacing="-0.5">Minute</text>
+                            <!-- Materials Text -->
+                            <text x="220" y="152" fill="#FF6B00" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="28" letter-spacing="-0.5">Materials</text>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Delivery Badge & Phone Link -->
+                <div class="flex items-center gap-3">
+                    <div class="hidden lg:flex items-center gap-2 bg-amber-50 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>LB Nagar & Hyderabad Express Dispatch</span>
+                    </div>
+
+                    <a href="tel:+919059236500" class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 transition">
+                        <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <span>+91 9059236500</span>
+                    </a>
+
+                    <!-- Direct Quick Order Form Drawer Trigger -->
+                    <a href="#quote-modal" class="bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 transition shadow-md">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Quick Booking</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-r from-brand-darkNavy via-brand-navy to-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
+            <!-- Left Text Content -->
+            <div class="space-y-5 text-center lg:text-left max-w-2xl">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-brand-orange/40 text-brand-orange px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <span>⚡ Direct WhatsApp Booking (+91 9059236500)</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                    Building Supplies Delivered <span class="text-brand-orange">In Minutes</span>
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Order CPVC pipes, wires, cement, TMT steel, and hardware directly to your site. Fast dispatch across LB Nagar, Kothapet, Nagole, & all Greater Hyderabad areas.
+                </p>
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#catalog" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg text-sm sm:text-base flex items-center gap-2">
+                        <span>Browse Products</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </a>
+                    <a href="https://wa.me/919059236500?text=Hello%20Minute%20Materials!%20I%20want%20to%20inquire%20about%20material%20pricing%20and%20site%20delivery." target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 text-sm sm:text-base shadow-lg">
+                        <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l me-.999 3.648 3.742-.981z"/></svg>
+                        <span>Chat on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fast Order Quick Card (Pure HTML Action Redirect) -->
+            <div class="w-full lg:w-96 bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-2xl text-white">
+                <h3 class="font-extrabold text-lg text-white mb-1 flex items-center gap-2">
+                    <span>📋 Quick Order Request</span>
+                </h3>
+                <p class="text-xs text-slate-300 mb-4">Send item list directly to WhatsApp helpline.</p>
+                <form action="https://wa.me/919059236500" method="get" target="_blank" class="space-y-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-200 mb-1">Your Name / Site Manager</label>
+                        <input type="text" placeholder="e.g. Ramesh" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-200 mb-1">Items Needed</label>
+                        <input type="text" name="text" value="Hello Minute Materials! I need a quote for: 10 Cement Bags, 3 Rolls 2.5sqmm Wire, 5 CPVC Pipes." class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                        <span>Send Order to 9059236500</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filter Bar (Pure CSS Navigation) -->
+    <div id="cat-bar" class="bg-white border-b border-slate-200 sticky top-20 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+                <label for="cat-all" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    All Materials
+                </label>
+                <label for="cat-masonry" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    Masonry & Cement
+                </label>
+                <label for="cat-steel" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    Steel & Rebar
+                </label>
+                <label for="cat-plumbing" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    Plumbing & Pipes
+                </label>
+                <label for="cat-electrical" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    Electrical & Wires
+                </label>
+                <label for="cat-safety" class="cursor-pointer px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">
+                    Safety & Tools
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Catalog Section -->
+    <main id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Material Products Catalog</h2>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Select items and click "Order via WhatsApp" to instantly book with quantity pre-filled.</p>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <!-- Product 1: Cement -->
+            <div class="prod-card prod-masonry bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/002c6c/ffffff?text=UltraTech+Cement+50kg" alt="UltraTech Cement" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Masonry & Cement</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">UltraTech Super Cement (PPC)</h3>
+                        <p class="text-xs text-slate-500 mt-1">High-strength PPC cement for concrete, plastering, & masonry site construction.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Bag (50kg)</span>
+                            <span class="text-lg font-black text-slate-900">₹385</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20UltraTech%20Super%20Cement%20(PPC)%20-%20%E2%82%B9385/Bag.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 2: CPVC Pipes -->
+            <div class="prod-card prod-plumbing bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/ff6b00/ffffff?text=Ashirvad+CPVC+Pipe+1inch" alt="CPVC Pipe" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Plumbing & Pipes</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Ashirvad CPVC Water Pipe 1" (3M)</h3>
+                        <p class="text-xs text-slate-500 mt-1">High-pressure SDR-11 hot and cold potable water plumbing pipe line.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Pipe (10ft)</span>
+                            <span class="text-lg font-black text-slate-900">₹320</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Ashirvad%20CPVC%20Water%20Pipe%201%20inch%20-%20%E2%82%B9320/Pipe.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 3: Electrical Wires -->
+            <div class="prod-card prod-electrical bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/071838/ffffff?text=Finolex+2.5sqmm+Wire" alt="Electrical Wire" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Electrical & Wires</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Finolex 2.5 sq mm Wire Box (90m)</h3>
+                        <p class="text-xs text-slate-500 mt-1">Flame retardant (FR) PVC insulated copper building wires for power sockets.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Box (90 Meters)</span>
+                            <span class="text-lg font-black text-slate-900">₹2,450</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Finolex%202.5sqmm%20Wire%20Box%20-%20%E2%82%B92450/Box.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 4: Steel Rebar -->
+            <div class="prod-card prod-steel bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/002c6c/ff6b00?text=TMT+Steel+12mm" alt="TMT Steel Bars" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Steel & Rebar</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Fe-550D TMT Steel Rebar (12mm)</h3>
+                        <p class="text-xs text-slate-500 mt-1">Earthquake-resistant ductile structural steel for pillar columns & roof slabs.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Metric Ton</span>
+                            <span class="text-lg font-black text-slate-900">₹64,500</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Fe-550D%20TMT%20Steel%20Rebar%2012mm%20-%20%E2%82%B964500/Ton.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 5: Modular Switches -->
+            <div class="prod-card prod-electrical bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/ff6b00/002c6c?text=Legrand+Modular+Switch" alt="Modular Switch" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Electrical & Wires</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Legrand 6A Modular Switch (White)</h3>
+                        <p class="text-xs text-slate-500 mt-1">Premium silent operation fire-retardant polycarbonate wall switch.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Piece</span>
+                            <span class="text-lg font-black text-slate-900">₹45</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Legrand%206A%20Modular%20Switch%20-%20%E2%82%B945/Piece.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 6: Plumbing Brass Ball Valve -->
+            <div class="prod-card prod-plumbing bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/002c6c/ffffff?text=Brass+Ball+Valve+1inch" alt="Brass Valve" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Plumbing & Pipes</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Heavy Duty Brass Ball Valve 1"</h3>
+                        <p class="text-xs text-slate-500 mt-1">Leak-proof forged brass control valve for main water lines and tanks.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Piece</span>
+                            <span class="text-lg font-black text-slate-900">₹390</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Heavy%20Duty%20Brass%20Ball%20Valve%201%20inch%20-%20%E2%82%B9390/Pc.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 7: Safety Helmet -->
+            <div class="prod-card prod-safety bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/071838/ff6b00?text=ISI+Safety+Helmet" alt="Safety Helmet" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Safety & Tools</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">ISI Industrial Safety Helmet</h3>
+                        <p class="text-xs text-slate-500 mt-1">Impact-resistant HDPE hard hat with quick ratchet size adjust mechanism.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Piece</span>
+                            <span class="text-lg font-black text-slate-900">₹290</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20ISI%20Industrial%20Safety%20Helmet%20-%20%E2%82%B9290/Piece.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product 8: Red Bricks -->
+            <div class="prod-card prod-masonry bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between">
+                <div>
+                    <div class="relative h-44 bg-slate-100">
+                        <img src="https://placehold.co/400x300/ff6b00/ffffff?text=Red+Bricks+Class-1" alt="Red Clay Bricks" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">Masonry & Cement</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-900 text-base">Class 1 Kiln Red Clay Bricks</h3>
+                        <p class="text-xs text-slate-500 mt-1">High load-bearing burnt clay red bricks for structural masonry walls.</p>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-3">
+                            <span class="text-xs text-slate-400">Unit: Piece</span>
+                            <span class="text-lg font-black text-slate-900">₹9.50</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="https://wa.me/919059236500?text=I%20want%20to%20order%20Class%201%20Kiln%20Red%20Clay%20Bricks%20-%20%E2%82%B99.50/Pc.%20Quantity:%20____" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                        <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                        <span>Order via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bulk Estimate Section -->
+    <section id="bulk" class="bg-brand-darkNavy text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between">
+                <div class="space-y-3 max-w-xl">
+                    <span class="bg-brand-orange/20 text-brand-orange border border-brand-orange/30 px-3 py-1 rounded-full text-xs font-extrabold uppercase">Bulk Site Quotation</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Need Commercial Quantities?</h2>
+                    <p class="text-xs sm:text-sm text-slate-300">Get discounted rates for complete apartment blocks, commercial sites, and contractor requirements in Hyderabad.</p>
+                </div>
+
+                <a href="#quote-modal" class="bg-brand-orange hover:bg-orange-600 text-white font-extrabold text-sm px-8 py-4 rounded-xl shadow-lg transition whitespace-nowrap">
+                    Submit Bulk Requirement
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 border-t border-slate-900 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-xs">
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-3">Minute Materials</h4>
+                <p class="leading-relaxed">Fastest construction material delivery hub. Supplying certified cement, steel, plumbing, and electrical materials directly to your site.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-3">Service Areas</h4>
+                <p class="leading-relaxed">LB Nagar, Kothapet, Dilsukhnagar, Nagole, Uppal, Malakpet, Hayathnagar, & all Greater Hyderabad areas.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-extrabold text-sm mb-3">WhatsApp Order Helpline</h4>
+                <p class="font-mono text-slate-200 text-sm mb-2">+91 9059236500</p>
+                <a href="https://wa.me/919059236500?text=Hello%20Minute%20Materials" target="_blank" class="inline-flex items-center gap-1.5 text-green-500 font-bold hover:underline">
+                    <span>Click to open WhatsApp Direct Chat</span>
+                </a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 pt-6 text-center text-[11px] text-slate-600">
+            © 2026 Minute Materials. All WhatsApp orders directed to +91 9059236500. Pure HTML/CSS Web Engine.
+        </div>
+    </footer>
+
+    <!-- Pure CSS Target Modal for Custom Form Redirect -->
+    <div id="quote-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-extrabold text-slate-900 text-base">Quick Site Booking Form</h3>
+                <a href="#" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</a>
+            </div>
+
+            <p class="text-xs text-slate-500">Submitting this form redirects your inputs directly to our WhatsApp order team at +91 9059236500.</p>
+
+            <form action="https://wa.me/919059236500" method="get" target="_blank" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Your Name *</label>
+                    <input type="text" placeholder="Full Name" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-brand-orange" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Site Delivery Location *</label>
+                    <input type="text" placeholder="e.g. LB Nagar, Plot No 45, Hyderabad" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-brand-orange" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Material Details & Quantity *</label>
+                    <textarea name="text" rows="3" placeholder="Enter materials needed..." class="w-full border border-slate-300 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-brand-orange" required>Hello Minute Materials! I want to order the following materials for site delivery in Hyderabad: </textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <a href="#" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl">Cancel</a>
+                    <button type="submit" class="px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5">
+                        <span>Send to WhatsApp</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919059236500?text=Hello%20Minute%20Materials!%20I%20have%20an%20urgent%20material%20order." target="_blank" class="fixed bottom-6 right-6 z-40 bg-green-500 hover:bg-green-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition hover:scale-105" title="Chat on WhatsApp">
+        <svg class="w-7 h-7 fill-white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+    </a>
+
+</body>
+</html>
